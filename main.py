@@ -71,7 +71,7 @@ def _make_provider(sdk_key: str, dispatch: dict, fallback_worker, name: str):
         try:
             if hasattr(worker, "run_async"):
                 # deferred: worker delivers itself (used by monitor)
-                asyncio.create_task(worker.run_async(requirements, order_id, client))
+                await worker.run_async(requirements, order_id, client)
             else:
                 result = await asyncio.to_thread(worker.run, requirements)
                 await client.deliver_order(order_id, DeliverOrderRequest(
